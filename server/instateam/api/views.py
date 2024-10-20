@@ -1,24 +1,24 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import TeamMember
-from .serializers import TeamMemberSerializer
+from .models import Member
+from .serializers import MemberSerializer
 
 @api_view(['GET'])
-def get_team_members(request):
-    team_members = TeamMember.objects.all()
-    serializer = TeamMemberSerializer(team_members, many=True)
+def get_members(request):
+    members = Member.objects.all()
+    serializer = MemberSerializer(members, many=True)
     return Response(serializer.data)
 
 # @api_view(['GET'])
-# def get_team_member(request, pk):
-#     team_member = TeamMember.objects.get(id=pk)
-#     serializer = TeamMemberSerializer(team_member, many=False)
+# def get_member(request, pk):
+#     member = Member.objects.get(id=pk)
+#     serializer = MemberSerializer(member, many=False)
 #     return Response(serializer.data)
 
 @api_view(['POST'])
-def create_team_member(request):
-    serializer = TeamMemberSerializer(data=request.data)
+def create_member(request):
+    serializer = MemberSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)

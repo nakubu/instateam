@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import TeamMember
+from .models import Member
 
-class TeamMemberSerializer(serializers.ModelSerializer):
+class MemberSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TeamMember
+        model = Member
         fields = '__all__'
