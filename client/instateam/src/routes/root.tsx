@@ -1,7 +1,9 @@
+import { Add } from '@mui/icons-material';
 import {
   Avatar,
   Box,
   Drawer,
+  IconButton,
   List,
   ListItemAvatar,
   ListItemButton,
@@ -15,7 +17,7 @@ import {
   useNavigation,
   useParams,
 } from 'react-router-dom';
-import { fetchMembers } from '../members';
+import { fetchMembers } from '../services/members';
 
 export async function loader() {
   const members = await fetchMembers();
@@ -47,16 +49,21 @@ export default function Root() {
           }}
         >
           <Box sx={{ p: 3 }}>
+            <Box sx={{ textAlign: 'right' }}>
+              <IconButton color="primary" component={NavLink} to="add">
+                <Add />
+              </IconButton>
+            </Box>
             <Typography variant="h4">Team members</Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
               You have {members.length} team member{members.length > 1 && 's'}
             </Typography>
           </Box>
           <List component="nav">
             {members.map((member) => (
               <ListItemButton
-                selected={getIsSelected(member, id)}
                 key={member.id}
+                selected={getIsSelected(member, id)}
                 component={NavLink}
                 to={`members/${member.id}`}
               >
@@ -92,7 +99,7 @@ export default function Root() {
         </Drawer>
         <Box
           component="main"
-          sx={{ flexGrow: 1, p: 3 }}
+          sx={{ p: 3, flexGrow: 1 }}
           className={navigation.state === 'loading' ? 'loading' : ''}
         >
           <Outlet />

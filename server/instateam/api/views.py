@@ -11,7 +11,7 @@ def get_members(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-def create_member(request):
+def add_member(request):
     serializer = MemberSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
