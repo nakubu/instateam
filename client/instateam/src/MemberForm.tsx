@@ -1,24 +1,19 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useState } from 'react';
+import { Form, useLoaderData } from 'react-router-dom';
 
-function App() {
-  const [members, setMembers] = useState([]);
+export async function loader({ params }) {
+  console.log(params);
+
+  // const member = await getContact(params.contactId);
+  return { name: 'woo' };
+}
+
+export default function MemberForm(params) {
   const [values, setValues] = useState({});
 
-  useEffect(() => {
-    fetchMembers();
-  }, []);
+  const { member } = useLoaderData();
 
-  async function fetchMembers() {
-    try {
-      const response = await fetch('http://localhost:8000/api/members/');
-      const data = await response.json();
-      setMembers(data);
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  console.log(params);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -41,14 +36,14 @@ function App() {
       body: JSON.stringify(values),
     });
     const data = await response.json();
-    setMembers([...members, data]);
+    // setMembers([...members, data]);
     // setValues({});
     console.log(data);
   };
 
   return (
     <>
-      <h1>Team Members</h1>
+      <h1>Team Member Form</h1>
       <form onSubmit={handleSubmit}>
         <label>
           First Name:
@@ -102,19 +97,6 @@ function App() {
         <br />
         <button type="submit">Submit</button>
       </form>
-
-      {members.map((member) => (
-        <div key={member.id}>
-          <h2>
-            {member.first_name} {member.last_name}
-          </h2>
-          <p>{member.email}</p>
-          <p>{member.phone}</p>
-          <p>{member.role}</p>
-        </div>
-      ))}
     </>
   );
 }
-
-export default App;
