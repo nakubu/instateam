@@ -10,10 +10,12 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { PatternFormat } from 'react-number-format';
-import { Form } from 'react-router-dom';
+import { Form, useNavigation } from 'react-router-dom';
 
 export default function MemberForm({ member }) {
+  const navigation = useNavigation();
   const [values, setValues] = useState(member);
+  const isSubmitting = navigation.state === 'submitting';
 
   useEffect(() => {
     setValues(member);
@@ -94,6 +96,7 @@ export default function MemberForm({ member }) {
           name="intent"
           value="save"
           variant="contained"
+          disabled={isSubmitting}
           sx={{ order: 2 }}
         >
           Save
@@ -105,6 +108,7 @@ export default function MemberForm({ member }) {
             value="delete"
             variant="outlined"
             color="error"
+            disabled={isSubmitting}
             sx={{ order: 1 }}
           >
             Delete
