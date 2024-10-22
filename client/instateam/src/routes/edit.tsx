@@ -1,12 +1,20 @@
 import { Divider, Typography } from '@mui/material';
 import { redirect, useLoaderData } from 'react-router-dom';
 import MemberForm from '../components/MemberForm';
-import { fetchMember, updateMember } from '../services/members';
+import { deleteMember, fetchMember, updateMember } from '../services/members';
+
+const DELETE_CONFIRM = 'Are you sure you want to delete this member?';
 
 export async function action({ request, params }) {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  await updateMember(params.id, data);
+  const data = Object.fromEntries(await request.formData());
+  if (data.intent === 'delete') {
+    if (confirm(DELETE_CONFIRM)) {
+      await deleteMember(params.id);
+      return redirect('/');
+    }
+  } else {
+    await updateMember(params.id, data);
+  }
   return null;
 }
 

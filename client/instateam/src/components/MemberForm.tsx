@@ -8,10 +8,23 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { Form } from 'react-router-dom';
 
 export default function MemberForm({ member }) {
-  console.log(member);
+  const [values, setValues] = useState(member);
+
+  useEffect(() => {
+    setValues(member);
+  }, [member]);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  }
 
   return (
     <Form method="post" style={{ maxWidth: 600 }}>
@@ -19,7 +32,8 @@ export default function MemberForm({ member }) {
       <TextField
         label="First name"
         name="first_name"
-        defaultValue={member?.first_name}
+        value={values.first_name}
+        onChange={handleChange}
         required
         variant="outlined"
         margin="normal"
@@ -28,7 +42,8 @@ export default function MemberForm({ member }) {
       <TextField
         label="Last name"
         name="last_name"
-        defaultValue={member?.last_name}
+        value={values.last_name}
+        onChange={handleChange}
         required
         variant="outlined"
         margin="normal"
@@ -38,7 +53,8 @@ export default function MemberForm({ member }) {
         label="Email"
         name="email"
         type="email"
-        defaultValue={member?.email}
+        value={values.email}
+        onChange={handleChange}
         required
         variant="outlined"
         margin="normal"
@@ -48,7 +64,8 @@ export default function MemberForm({ member }) {
         label="Phone"
         name="phone"
         type="tel"
-        defaultValue={member?.phone}
+        value={values.phone}
+        onChange={handleChange}
         required
         variant="outlined"
         margin="normal"
@@ -56,7 +73,7 @@ export default function MemberForm({ member }) {
       />
       <FormControl sx={{ mt: 3 }}>
         <Typography variant="h6">Role</Typography>
-        <RadioGroup defaultValue={member?.role} name="role" required>
+        <RadioGroup name="role" value={values.role} onChange={handleChange}>
           <FormControlLabel
             value="regular"
             control={<Radio />}
@@ -73,14 +90,27 @@ export default function MemberForm({ member }) {
         direction="row"
         sx={{ mt: 3, justifyContent: member.id ? 'space-between' : 'flex-end' }}
       >
+        <Button
+          type="submit"
+          name="intent"
+          value="save"
+          variant="contained"
+          sx={{ order: 2 }}
+        >
+          Save
+        </Button>
         {member.id && (
-          <Button variant="outlined" color="error" onClick={() => {}}>
+          <Button
+            type="submit"
+            name="intent"
+            value="delete"
+            variant="outlined"
+            color="error"
+            sx={{ order: 1 }}
+          >
             Delete
           </Button>
         )}
-        <Button variant="contained" type="submit">
-          Save
-        </Button>
       </Stack>
     </Form>
   );

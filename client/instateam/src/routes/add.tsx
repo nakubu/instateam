@@ -12,6 +12,7 @@ export async function action({ request }) {
 
 export default function AddMember() {
   const member = {};
+
   return (
     <>
       <Typography variant="h4">Add team member</Typography>
