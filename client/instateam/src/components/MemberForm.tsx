@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { NumericFormat, PatternFormat } from 'react-number-format';
 import { Form } from 'react-router-dom';
 
 export default function MemberForm({ member }) {
@@ -28,14 +29,12 @@ export default function MemberForm({ member }) {
 
   return (
     <Form method="post" style={{ maxWidth: 600 }}>
-      <Typography variant="h6">Info</Typography>
       <TextField
         label="First name"
         name="first_name"
         value={values.first_name}
         onChange={handleChange}
         required
-        variant="outlined"
         margin="normal"
         fullWidth
       />
@@ -45,7 +44,6 @@ export default function MemberForm({ member }) {
         value={values.last_name}
         onChange={handleChange}
         required
-        variant="outlined"
         margin="normal"
         fullWidth
       />
@@ -56,18 +54,19 @@ export default function MemberForm({ member }) {
         value={values.email}
         onChange={handleChange}
         required
-        variant="outlined"
         margin="normal"
         fullWidth
       />
-      <TextField
+      <PatternFormat
         label="Phone"
         name="phone"
         type="tel"
         value={values.phone}
         onChange={handleChange}
         required
-        variant="outlined"
+        format="###-###-####"
+        mask="_"
+        customInput={TextField}
         margin="normal"
         fullWidth
       />
