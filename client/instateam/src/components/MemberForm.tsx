@@ -1,16 +1,51 @@
 import {
   Button,
+  Divider,
   FormControl,
   FormControlLabel,
+  FormControlLabelProps,
   Radio,
   RadioGroup,
   Stack,
+  styled,
   TextField,
   Typography,
+  useRadioGroup,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { PatternFormat } from 'react-number-format';
 import { Form, useNavigation } from 'react-router-dom';
+
+interface StyledFormControlLabelProps extends FormControlLabelProps {
+  checked: boolean;
+}
+
+const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => (
+  <FormControlLabel {...props} />
+))(({ theme }) => ({
+  '.MuiFormControlLabel-label': {
+    flexGrow: 1,
+  },
+  variants: [
+    {
+      props: { checked: false },
+      style: {
+        '.MuiFormControlLabel-label': {
+          color: theme.palette.text.secondary,
+        },
+      },
+    },
+  ],
+}));
+
+function MyFormControlLabel(props: FormControlLabelProps) {
+  const radioGroup = useRadioGroup();
+  let checked = false;
+  if (radioGroup) {
+    checked = radioGroup.value === props.value;
+  }
+  return <StyledFormControlLabel checked={checked} {...props} />;
+}
 
 export default function MemberForm({ member }) {
   const navigation = useNavigation();
@@ -72,19 +107,28 @@ export default function MemberForm({ member }) {
         margin="normal"
         fullWidth
       />
-      <FormControl sx={{ mt: 3 }}>
+      <FormControl fullWidth sx={{ mt: 3 }}>
         <Typography variant="h6">Role</Typography>
-        <RadioGroup name="role" value={values.role} onChange={handleChange}>
-          <FormControlLabel
+        <RadioGroup
+          name="role"
+          value={values.role}
+          onChange={handleChange}
+          sx={{ mt: 1 }}
+        >
+          <MyFormControlLabel
             value="regular"
             control={<Radio />}
             label="Regular - Can't delete members"
+            labelPlacement="start"
           />
-          <FormControlLabel
+          <Divider />
+          <MyFormControlLabel
             value="admin"
             control={<Radio />}
             label="Admin - Can delete members"
+            labelPlacement="start"
           />
+          <Divider />
         </RadioGroup>
       </FormControl>
       <Stack
