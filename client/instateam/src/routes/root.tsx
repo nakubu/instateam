@@ -9,6 +9,7 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import {
@@ -51,9 +52,11 @@ export default function Root() {
         >
           <Box sx={{ p: 3 }}>
             <Box sx={{ textAlign: 'right' }}>
-              <IconButton color="primary" component={NavLink} to="add">
-                <Add />
-              </IconButton>
+              <Tooltip title="Add team member">
+                <IconButton color="primary" component={NavLink} to="add">
+                  <Add />
+                </IconButton>
+              </Tooltip>
             </Box>
             <Typography variant="h4">Team members</Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
