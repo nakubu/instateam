@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { NumericFormat, PatternFormat } from 'react-number-format';
+import { PatternFormat } from 'react-number-format';
 import { Form } from 'react-router-dom';
 
 export default function MemberForm({ member }) {

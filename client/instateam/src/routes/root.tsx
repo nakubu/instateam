@@ -9,9 +9,11 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useState } from 'react';
 import {
   NavLink,
   Outlet,
@@ -38,6 +40,17 @@ export default function Root() {
   const { id } = useParams();
   const { members } = useLoaderData();
   const navigation = useNavigation();
+  const [query, setQuery] = useState('');
+  const filteredMembers = members.filter((member) =>
+    `${member.first_name} ${member.last_name}`
+      .toLowerCase()
+      .includes(query.toLowerCase())
+  );
+
+  function handleChange(e) {
+    const { value } = e.target;
+    setQuery(value);
+  }
 
   return (
     <>
@@ -52,7 +65,7 @@ export default function Root() {
         >
           <Box sx={{ p: 3 }}>
             <Box sx={{ textAlign: 'right' }}>
-              <Tooltip title="Add team member">
+              <Tooltip title="Add team member" placement="left">
                 <IconButton color="primary" component={NavLink} to="add">
                   <Add />
                 </IconButton>
@@ -62,10 +75,20 @@ export default function Root() {
             <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
               You have {members.length} team member{members.length > 1 && 's'}
             </Typography>
+            <TextField
+              label="Search..."
+              name="query"
+              type="search"
+              value={query}
+              onChange={handleChange}
+              variant="standard"
+              fullWidth
+              sx={{ mt: 3 }}
+            />
           </Box>
           <List component="nav">
             <Divider variant="middle" />
-            {members.map((member) => (
+            {filteredMembers.map((member) => (
               <>
                 <ListItemButton
                   key={member.id}
