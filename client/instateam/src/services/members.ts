@@ -1,63 +1,39 @@
-export async function fetchMembers() {
-  try {
-    const res = await fetch('http://localhost:8000/api/members/');
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`HTTP error ${res.status}: ${errorText || res.statusText}`);
-    }
-    return await res.json();
-  } catch (err) {
-    throw new Error(`Error fetching members: ${err}`);
-  }
-}
+import { Member } from '../types/Member';
 
-export async function fetchMember(id) {
-  try {
-    const res = await fetch(`http://localhost:8000/api/members/${id}`);
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`HTTP error ${res.status}: ${errorText || res.statusText}`);
-    }
-    return await res.json();
-  } catch (err) {
-    throw new Error(`Error fetching member: ${err}`);
-  }
-}
+const BASE_URL = 'http://localhost:8000/api/members';
 
-export async function addMember(data) {
+export const fetchMembers = (): Promise<Member[]> => makeRequest(BASE_URL);
+
+export const fetchMember = (id: string): Promise<Member> => makeRequest(`${BASE_URL}/${id}`);
+
+export const addMember = (data: Member): Promise<Member> => makeRequest(`${BASE_URL}/add/`, 'POST', data);
+
+export const updateMember = (id: string, data: Member): Promise<Member> => makeRequest(`${BASE_URL}/${id}/`, 'PUT', data);
+
+export const deleteMember = (id: string): Promise<void> => makeRequest(`${BASE_URL}/${id}/`, 'DELETE');
+
+async function makeRequest(url: string, method = 'GET', data: Member | null = null) {
   try {
-    const res = await fetch('http://localhost:8000/api/members/add/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+    const res = await fetch(url, {
+      method,
+      headers: data ? { 'Content-Type': 'application/json' } : {},
+      body: data ? JSON.stringify(data) : null,
     });
     if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`HTTP error ${res.status}: ${errorText || res.statusText}`);
+      await handleError(res);
     }
-    return await res.json();
+    const contentType = res.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return await res.json();
+    } else {
+      return res;
+    }
   } catch (err) {
-    throw new Error(`Error adding member: ${err}`);
+    throw new Error(`API Error: ${err}`);
   }
 }
 
-export async function updateMember(id, data) {
-  try {
-    const res = await fetch(`http://localhost:8000/api/members/${id}/`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`HTTP error ${res.status}: ${errorText || res.statusText}`);
-    }
-    return await res.json();
-  } catch (err) {
-    throw new Error(`Error updating member: ${err}`);
-  }
+async function handleError(res: Response) {
+  const errorText = await res.text();
+  throw new Error(`HTTP error ${res.status}: ${errorText || res.statusText}`);
 }
