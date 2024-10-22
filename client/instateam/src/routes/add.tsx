@@ -15,7 +15,9 @@ export default function AddMember() {
 
   return (
     <>
-      <Typography variant="h4">Add team member</Typography>
+      <Typography variant="h4" sx={{ mt: 4 }}>
+        Add team member
+      </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
         Set email, phone, and role
       </Typography>

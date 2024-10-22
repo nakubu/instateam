@@ -112,6 +112,7 @@ export default function MemberForm({ member }) {
         <RadioGroup
           name="role"
           value={values.role}
+          defaultValue="regular"
           onChange={handleChange}
           sx={{ mt: 1 }}
         >

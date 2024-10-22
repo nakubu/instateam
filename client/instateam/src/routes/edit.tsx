@@ -34,7 +34,9 @@ export default function EditMember() {
 
   return (
     <>
-      <Typography variant="h4">Edit team member</Typography>
+      <Typography variant="h4" sx={{ mt: 4 }}>
+        Edit team member
+      </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
         Edit email, phone, and role
       </Typography>
