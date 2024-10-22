@@ -6,8 +6,13 @@ import { addMember } from '../services/members';
 
 export async function action({ request }: { request: Request }) {
   const member = getMember(await request.formData());
-  const { id } = await addMember(member);
-  return redirect(`/members/${id}`);
+  try {
+    const { id } = await addMember(member);
+    return redirect(`/members/${id}`);
+  } catch (error) {
+    alert(error);
+    return null;
+  }
 }
 
 export default function AddMember() {

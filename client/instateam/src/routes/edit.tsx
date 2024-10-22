@@ -18,11 +18,19 @@ export async function action({
   const member = getMember(formData);
   if (formData.get('intent') === 'delete') {
     if (confirm(DELETE_CONFIRM)) {
-      await deleteMember(params.id);
-      return redirect('/');
+      try {
+        await deleteMember(params.id);
+        return redirect('/');
+      } catch (error) {
+        alert(error);
+      }
     }
   } else {
-    await updateMember(params.id, member);
+    try {
+      await updateMember(params.id, member);
+    } catch (error) {
+      alert(error);
+    }
   }
   return null;
 }

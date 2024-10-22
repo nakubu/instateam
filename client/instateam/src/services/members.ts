@@ -29,11 +29,11 @@ async function makeRequest(url: string, method = 'GET', data: Member | null = nu
       return res;
     }
   } catch (err) {
-    throw new Error(`API Error: ${err}`);
+    throw new Error(`${err}`);
   }
 }
 
 async function handleError(res: Response) {
   const errorText = await res.text();
-  throw new Error(`HTTP error ${res.status}: ${errorText || res.statusText}`);
+  throw new Error(`${errorText || res.statusText}`);
 }
