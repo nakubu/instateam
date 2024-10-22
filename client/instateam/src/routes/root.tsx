@@ -33,10 +33,6 @@ function getAvatar(member: Member) {
   return `${member.first_name[0].toUpperCase()}${member.last_name[0].toUpperCase()}`;
 }
 
-function getIsSelected(member: Member, id: string) {
-  return member.id?.toString() === id;
-}
-
 export default function Root() {
   const { id } = useParams();
   const { members } = useLoaderData() as { members: Member[] };
@@ -48,9 +44,12 @@ export default function Root() {
       .includes(query.toLowerCase())
   );
 
-  function handleChange(e) {
-    const { value } = e.target;
-    setQuery(value);
+  function getIsSelected(member: Member) {
+    return member.id?.toString() === id;
+  }
+
+  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+    setQuery(e.target.value);
   }
 
   return (
@@ -81,7 +80,7 @@ export default function Root() {
               name="query"
               type="search"
               value={query}
-              onChange={handleChange}
+              onChange={handleSearch}
               variant="standard"
               fullWidth
               sx={{ mt: 3 }}
@@ -93,7 +92,7 @@ export default function Root() {
               <>
                 <ListItemButton
                   key={member.id}
-                  selected={getIsSelected(member, id)}
+                  selected={getIsSelected(member)}
                   component={NavLink}
                   to={`members/${member.id}`}
                 >
