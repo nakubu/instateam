@@ -2,6 +2,7 @@ import { Add } from '@mui/icons-material';
 import {
   Avatar,
   Box,
+  Divider,
   Drawer,
   IconButton,
   List,
@@ -60,40 +61,44 @@ export default function Root() {
             </Typography>
           </Box>
           <List component="nav">
+            <Divider variant="middle" />
             {members.map((member) => (
-              <ListItemButton
-                key={member.id}
-                selected={getIsSelected(member, id)}
-                component={NavLink}
-                to={`members/${member.id}`}
-              >
-                <ListItemAvatar>
-                  <Avatar>{getAvatar(member)}</Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={`${member.first_name} ${member.last_name}`}
-                  secondary={
-                    <>
-                      <Typography
-                        sx={{ display: 'block' }}
-                        component="span"
-                        variant="body2"
-                        color="text.secondary"
-                      >
-                        {member.phone}
-                      </Typography>
-                      <Typography
-                        sx={{ display: 'block' }}
-                        component="span"
-                        variant="body2"
-                        color="text.secondary"
-                      >
-                        {member.email}
-                      </Typography>
-                    </>
-                  }
-                />
-              </ListItemButton>
+              <>
+                <ListItemButton
+                  key={member.id}
+                  selected={getIsSelected(member, id)}
+                  component={NavLink}
+                  to={`members/${member.id}`}
+                >
+                  <ListItemAvatar>
+                    <Avatar>{getAvatar(member)}</Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={`${member.first_name} ${member.last_name}`}
+                    secondary={
+                      <>
+                        <Typography
+                          sx={{ display: 'block' }}
+                          component="span"
+                          variant="body2"
+                          color="text.secondary"
+                        >
+                          {member.phone}
+                        </Typography>
+                        <Typography
+                          sx={{ display: 'block' }}
+                          component="span"
+                          variant="body2"
+                          color="text.secondary"
+                        >
+                          {member.email}
+                        </Typography>
+                      </>
+                    }
+                  />
+                </ListItemButton>
+                <Divider variant="middle" />
+              </>
             ))}
           </List>
         </Drawer>
