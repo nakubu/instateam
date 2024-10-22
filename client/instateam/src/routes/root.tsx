@@ -22,23 +22,24 @@ import {
   useParams,
 } from 'react-router-dom';
 import { fetchMembers } from '../services/members';
+import { Member } from '../types/Member';
 
 export async function loader() {
   const members = await fetchMembers();
   return { members };
 }
 
-function getAvatar(member) {
+function getAvatar(member: Member) {
   return `${member.first_name[0].toUpperCase()}${member.last_name[0].toUpperCase()}`;
 }
 
-function getIsSelected(member, id) {
-  return member.id.toString() === id;
+function getIsSelected(member: Member, id: string) {
+  return member.id?.toString() === id;
 }
 
 export default function Root() {
   const { id } = useParams();
-  const { members } = useLoaderData();
+  const { members } = useLoaderData() as { members: Member[] };
   const navigation = useNavigation();
   const [query, setQuery] = useState('');
   const filteredMembers = members.filter((member) =>

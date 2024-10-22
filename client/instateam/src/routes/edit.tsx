@@ -2,10 +2,17 @@ import { Divider, Typography } from '@mui/material';
 import { redirect, useLoaderData } from 'react-router-dom';
 import MemberForm from '../components/MemberForm';
 import { deleteMember, fetchMember, updateMember } from '../services/members';
+import { Member } from '../types/Member';
 
 const DELETE_CONFIRM = 'Are you sure you want to delete this team member?';
 
-export async function action({ request, params }) {
+export async function action({
+  request,
+  params,
+}: {
+  request: Request;
+  params: { id: string };
+}) {
   const data = Object.fromEntries(await request.formData());
   if (data.intent === 'delete') {
     if (confirm(DELETE_CONFIRM)) {
@@ -18,8 +25,8 @@ export async function action({ request, params }) {
   return null;
 }
 
-export async function loader({ params }) {
-  const member = await fetchMember(params.id);
+export async function loader({ params }: { params: { id: string } }) {
+  const member: Member = await fetchMember(params.id);
   if (!member) {
     throw new Response('', {
       status: 404,
@@ -30,7 +37,7 @@ export async function loader({ params }) {
 }
 
 export default function EditMember() {
-  const { member } = useLoaderData();
+  const { member } = useLoaderData() as { member: Member };
 
   return (
     <>

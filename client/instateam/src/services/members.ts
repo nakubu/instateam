@@ -2,15 +2,15 @@ import { Member } from '../types/Member';
 
 const BASE_URL = 'http://localhost:8000/api/members';
 
-export const fetchMembers = () => makeRequest(BASE_URL);
+export const fetchMembers = (): Promise<Member[]> => makeRequest(BASE_URL);
 
-export const fetchMember = (id: string) => makeRequest(`${BASE_URL}/${id}`);
+export const fetchMember = (id: string): Promise<Member> => makeRequest(`${BASE_URL}/${id}`);
 
-export const addMember = (data: Member) => makeRequest(`${BASE_URL}/add/`, 'POST', data);
+export const addMember = (data: Member): Promise<Member> => makeRequest(`${BASE_URL}/add/`, 'POST', data);
 
-export const updateMember = (id: string, data: Member) => makeRequest(`${BASE_URL}/${id}/`, 'PUT', data);
+export const updateMember = (id: string, data: Member): Promise<Member> => makeRequest(`${BASE_URL}/${id}/`, 'PUT', data);
 
-export const deleteMember = (id: string) => makeRequest(`${BASE_URL}/${id}/`, 'DELETE');
+export const deleteMember = (id: string): Promise<void> => makeRequest(`${BASE_URL}/${id}/`, 'DELETE');
 
 async function makeRequest(url: string, method = 'GET', data: Member | null = null) {
   try {

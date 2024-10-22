@@ -3,7 +3,7 @@ import { redirect } from 'react-router-dom';
 import MemberForm from '../components/MemberForm';
 import { addMember } from '../services/members';
 
-export async function action({ request }) {
+export async function action({ request }: { request: Request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   const { id } = await addMember(data);
