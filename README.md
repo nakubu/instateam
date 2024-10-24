@@ -5,7 +5,7 @@
 ### Project Setup
 
 ```bash
-cd client/instateam
+cd client
 npm install
 ```
 
