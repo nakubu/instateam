@@ -20,18 +20,20 @@ npm run dev
 ### Project Setup
 
 ```bash
-cd server/instateam
-pip install
+cd server
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ### Start Development Server
 
 ```bash
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 ### Run Tests
 
 ```bash
-python manage.py test api
+python3 manage.py test api
 ```
