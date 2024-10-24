@@ -22,7 +22,7 @@ Open http://localhost:5173/
 #### Project Setup
 
 ```bash
-cd client
+cd instateam/client
 npm install
 ```
 
@@ -37,7 +37,7 @@ npm run dev
 #### Project Setup
 
 ```bash
-cd server
+cd instateam/server
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
