@@ -1,9 +1,15 @@
 # Instateam
 
+## Clone repo
+
+```bash
+git clone git@github.com:nakubu/instateam.git
+```
+
 ## Docker
 
 ```bash
-cd server
+cd instateam
 docker-compose up --build
 ```
 
