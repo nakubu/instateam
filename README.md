@@ -1,23 +1,40 @@
 # Instateam
 
-## Client
+## Clone repo
 
-### Project Setup
+```bash
+git clone git@github.com:nakubu/instateam.git
+```
+
+## Docker
+
+```bash
+cd instateam
+docker-compose up --build
+```
+
+Open http://localhost:5173/
+
+## Manual
+
+### Client
+
+#### Project Setup
 
 ```bash
 cd client
 npm install
 ```
 
-### Start Development Server
+#### Start Development Server
 
 ```bash
 npm run dev
 ```
 
-## Server
+### Server
 
-### Project Setup
+#### Project Setup
 
 ```bash
 cd server
@@ -26,13 +43,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Start Development Server
+#### Start Development Server
 
 ```bash
 python3 manage.py runserver
 ```
 
-### Run Tests
+#### Run Tests
 
 ```bash
 python3 manage.py test api
