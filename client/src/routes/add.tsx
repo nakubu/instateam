@@ -1,11 +1,17 @@
 import { Divider, Typography } from '@mui/material';
-import { redirect } from 'react-router-dom';
+import { json, redirect } from 'react-router-dom';
 import MemberForm from '../components/MemberForm';
-import { getMember } from '../lib/util';
+import { getMember, validateForm } from '../lib/util';
 import { addMember } from '../services/members';
 
 export async function action({ request }: { request: Request }) {
-  const member = getMember(await request.formData());
+  const formData = await request.formData();
+  const errors = validateForm(formData);
+  if (errors) {
+    return json({ errors }, { status: 400 });
+  }
+  const member = getMember(formData);
+
   try {
     const { id } = await addMember(member);
     return redirect(`/members/${id}`);
