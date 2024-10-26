@@ -89,9 +89,8 @@ export default function Root() {
           <List component="nav">
             <Divider variant="middle" />
             {filteredMembers.map((member) => (
-              <>
+              <Box key={member.id}>
                 <ListItemButton
-                  key={member.id}
                   selected={getIsSelected(member)}
                   component={NavLink}
                   to={`members/${member.id}`}
@@ -124,7 +123,7 @@ export default function Root() {
                   />
                 </ListItemButton>
                 <Divider variant="middle" />
-              </>
+              </Box>
             ))}
           </List>
         </Drawer>

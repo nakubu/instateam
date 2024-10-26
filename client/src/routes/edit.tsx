@@ -1,7 +1,7 @@
 import { Divider, Typography } from '@mui/material';
-import { redirect, useLoaderData } from 'react-router-dom';
+import { json, redirect, useLoaderData } from 'react-router-dom';
 import MemberForm from '../components/MemberForm';
-import { getMember } from '../lib/util';
+import { getMember, validateForm } from '../lib/util';
 import { deleteMember, fetchMember, updateMember } from '../services/members';
 import { Member } from '../types/Member';
 
@@ -15,7 +15,12 @@ export async function action({
   params: { id: string };
 }) {
   const formData = await request.formData();
+  const errors = validateForm(formData);
+  if (errors) {
+    return json({ errors }, { status: 400 });
+  }
   const member = getMember(formData);
+
   if (formData.get('intent') === 'delete') {
     if (confirm(DELETE_CONFIRM)) {
       try {

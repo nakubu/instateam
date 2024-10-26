@@ -14,7 +14,8 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { PatternFormat } from 'react-number-format';
-import { Form, useNavigation } from 'react-router-dom';
+import { Form, useActionData, useNavigation } from 'react-router-dom';
+import type { Member } from '../types/Member';
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
   checked: boolean;
@@ -47,16 +48,19 @@ function MyFormControlLabel(props: FormControlLabelProps) {
   return <StyledFormControlLabel checked={checked} {...props} />;
 }
 
-export default function MemberForm({ member }) {
+export default function MemberForm({ member }: { member: Member }) {
+  const actionData = useActionData();
   const navigation = useNavigation();
   const [values, setValues] = useState(member);
   const isSubmitting = navigation.state === 'submitting';
 
   useEffect(() => {
-    setValues(member);
-  }, [member]);
+    if (!actionData && navigation.state === 'idle') {
+      setValues(member);
+    }
+  }, [actionData, navigation.state, member]);
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setValues((prevValues) => ({
       ...prevValues,
@@ -93,6 +97,8 @@ export default function MemberForm({ member }) {
         required
         margin="normal"
         fullWidth
+        error={!!actionData?.errors?.email}
+        helperText={actionData?.errors?.email}
       />
       <PatternFormat
         label="Phone"
@@ -106,6 +112,8 @@ export default function MemberForm({ member }) {
         customInput={TextField}
         margin="normal"
         fullWidth
+        error={!!actionData?.errors?.phone}
+        helperText={actionData?.errors?.phone}
       />
       <FormControl fullWidth sx={{ mt: 3 }}>
         <Typography variant="h6">Role</Typography>
