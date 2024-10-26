@@ -3,7 +3,7 @@ import { json, redirect, useLoaderData } from 'react-router-dom';
 import MemberForm from '../components/MemberForm';
 import { getMember, validateForm } from '../lib/util';
 import { deleteMember, fetchMember, updateMember } from '../services/members';
-import { Member } from '../types/Member';
+import type { Member } from '../types/Member';
 
 const DELETE_CONFIRM = 'Are you sure you want to delete this team member?';
 
@@ -32,7 +32,10 @@ export async function action({
     }
   } else {
     try {
-      await updateMember(params.id, member);
+      const data = await updateMember(params.id, member);
+      if ('errors' in data) {
+        return json({ errors: data.errors }, { status: data.status });
+      }
     } catch (error) {
       alert(error);
     }

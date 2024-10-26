@@ -23,10 +23,10 @@ function isPhoneValid(phone: string) {
 export function validateForm(formData: FormData) {
   const errors: Record<string, string> = {};
   if (!isEmailValid(formData.get('email') as string)) {
-    errors.email = 'Invalid email address';
+    errors.email = 'Enter a valid email address.';
   }
   if (!isPhoneValid(formData.get('phone') as string)) {
-    errors.phone = 'Invalid phone number';
+    errors.phone = 'Enter a valid phone number.';
   }
   if (Object.keys(errors).length > 0) {
     return errors;

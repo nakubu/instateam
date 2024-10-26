@@ -3,6 +3,7 @@ import { json, redirect } from 'react-router-dom';
 import MemberForm from '../components/MemberForm';
 import { getMember, validateForm } from '../lib/util';
 import { addMember } from '../services/members';
+import type { Member } from '../types/Member';
 
 export async function action({ request }: { request: Request }) {
   const formData = await request.formData();
@@ -13,16 +14,26 @@ export async function action({ request }: { request: Request }) {
   const member = getMember(formData);
 
   try {
-    const { id } = await addMember(member);
-    return redirect(`/members/${id}`);
+    const data = await addMember(member);
+    if ('errors' in data) {
+      return json({ errors: data.errors }, { status: data.status });
+    } else {
+      return redirect(`/members/${data.id}`);
+    }
   } catch (error) {
     alert(error);
-    return null;
   }
+  return null;
 }
 
 export default function AddMember() {
-  const member = {};
+  const member = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    role: 'regular' as Member['role'],
+  };
 
   return (
     <>
