@@ -9,11 +9,12 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Snackbar,
   TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   NavLink,
   Outlet,
@@ -38,11 +39,22 @@ export default function Root() {
   const { members } = useLoaderData() as { members: Member[] };
   const navigation = useNavigation();
   const [query, setQuery] = useState('');
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [setIsAlertOpen, setSetIsAlertOpen] = useState(false);
   const filteredMembers = members.filter((member) =>
     `${member.first_name} ${member.last_name}`
       .toLowerCase()
       .includes(query.toLowerCase())
   );
+
+  useEffect(() => {
+    const message = sessionStorage.getItem('statusMessage');
+    if (message && navigation.state === 'idle') {
+      setStatusMessage(message);
+      setSetIsAlertOpen(true);
+      sessionStorage.removeItem('statusMessage');
+    }
+  }, [navigation.state]);
 
   function getIsSelected(member: Member) {
     return member.id?.toString() === id;
@@ -54,6 +66,12 @@ export default function Root() {
 
   return (
     <>
+      <Snackbar
+        message={statusMessage}
+        open={setIsAlertOpen}
+        onClose={() => setSetIsAlertOpen(false)}
+        autoHideDuration={5000}
+      />
       <Box sx={{ display: 'flex' }}>
         <Drawer
           variant="permanent"

@@ -58,17 +58,15 @@ export default function MemberForm({ member }: { member: Member }) {
   const [setIsAlertOpen, setSetIsAlertOpen] = useState(false);
 
   useEffect(() => {
+    if (!actionData && navigation.state === 'idle') {
+      setValues(member);
+    }
+
     const message = sessionStorage.getItem('statusMessage');
-    if (message) {
+    if (message && navigation.state === 'idle') {
       setStatusMessage(message);
       setSetIsAlertOpen(true);
       sessionStorage.removeItem('statusMessage');
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!actionData && navigation.state === 'idle') {
-      setValues(member);
     }
   }, [actionData, navigation.state, member]);
 

@@ -25,6 +25,7 @@ export async function action({
     if (confirm(DELETE_CONFIRM)) {
       try {
         await deleteMember(params.id);
+        sessionStorage.setItem('statusMessage', 'Member deleted successfully!');
         return redirect('/');
       } catch (error) {
         alert(error);
@@ -36,6 +37,7 @@ export async function action({
       if ('errors' in data) {
         return json({ errors: data.errors }, { status: data.status });
       }
+      sessionStorage.setItem('statusMessage', 'Member updated successfully!');
     } catch (error) {
       alert(error);
     }
