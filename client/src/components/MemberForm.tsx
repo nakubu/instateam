@@ -6,6 +6,7 @@ import {
   FormControlLabelProps,
   Radio,
   RadioGroup,
+  Snackbar,
   Stack,
   styled,
   TextField,
@@ -51,8 +52,19 @@ function MyFormControlLabel(props: FormControlLabelProps) {
 export default function MemberForm({ member }: { member: Member }) {
   const actionData = useActionData();
   const navigation = useNavigation();
-  const [values, setValues] = useState(member);
   const isSubmitting = navigation.state === 'submitting';
+  const [values, setValues] = useState(member);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [setIsAlertOpen, setSetIsAlertOpen] = useState(false);
+
+  useEffect(() => {
+    const message = sessionStorage.getItem('statusMessage');
+    if (message) {
+      setStatusMessage(message);
+      setSetIsAlertOpen(true);
+      sessionStorage.removeItem('statusMessage');
+    }
+  }, []);
 
   useEffect(() => {
     if (!actionData && navigation.state === 'idle') {
@@ -70,6 +82,12 @@ export default function MemberForm({ member }: { member: Member }) {
 
   return (
     <Form method="post" style={{ maxWidth: 600 }}>
+      <Snackbar
+        message={statusMessage}
+        open={setIsAlertOpen}
+        onClose={() => setSetIsAlertOpen(false)}
+        autoHideDuration={5000}
+      />
       <TextField
         label="First name"
         name="first_name"

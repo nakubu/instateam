@@ -18,6 +18,7 @@ export async function action({ request }: { request: Request }) {
     if ('errors' in data) {
       return json({ errors: data.errors }, { status: data.status });
     } else {
+      sessionStorage.setItem('statusMessage', 'Member added successfully!');
       return redirect(`/members/${data.id}/`);
     }
   } catch (error) {
