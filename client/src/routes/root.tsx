@@ -93,7 +93,7 @@ export default function Root() {
                 <ListItemButton
                   selected={getIsSelected(member)}
                   component={NavLink}
-                  to={`members/${member.id}`}
+                  to={`members/${member.id}/`}
                 >
                   <ListItemAvatar>
                     <Avatar>{getAvatar(member)}</Avatar>

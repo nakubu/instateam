@@ -18,7 +18,7 @@ export async function action({ request }: { request: Request }) {
     if ('errors' in data) {
       return json({ errors: data.errors }, { status: data.status });
     } else {
-      return redirect(`/members/${data.id}`);
+      return redirect(`/members/${data.id}/`);
     }
   } catch (error) {
     alert(error);
